@@ -1,1 +1,2 @@
-# -ECO346-A1-FA24-BED-034
+# Data Visualization Techniques Assignment 1
+
