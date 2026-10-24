@@ -36,18 +36,22 @@ p <- ggplot(hist_df, aes(xmin = left, xmax = right, ymin = 0, ymax = density)) +
   annotate("text", x = log10(p90), y = max(hist_df$density) * 1.08,
            label = paste0("90th percentile\n", rs(p90)), hjust = -0.1) +
   scale_x_continuous(
+    limits = c(2, 6),
     breaks = 2:6,
     labels = c("Rs 100", "Rs 1,000", "Rs 10,000", "Rs 100,000", "Rs 1,000,000")
   ) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.2))) +
   labs(
-    title = paste0("Rural Sindh: half of students cost households under ", rs(w_median),
-                   " a year, but the top tenth spend over ", rs(p90)),
+    title = paste0("Rural Sindh: half of students cost households ", rs(w_median),
+                   " or less a year, but the top tenth spend over ", rs(p90)),
     x = "Annual education spending per student (log scale)",
     y = "Density per log10 unit",
-    caption = paste0("Source: PSLM 2019-20 person file. Sample: students (ed_total > 0) in Sindh rural, n = ",
-                     n_students, ". Weighted by hhweight. ",
-                     n_excluded, " students outside Rs 100 to Rs 1,000,000 excluded.")
+    caption = stringr::str_wrap(
+      paste0("Source: PSLM 2019-20 person file. Sample: students (ed_total > 0) in Sindh rural, n = ",
+             n_students, ". Weighted by hhweight. ",
+             n_excluded, if (n_excluded == 1) " student" else " students",
+             " outside Rs 100 to Rs 1,000,000 excluded."),
+      width = 110)
   ) +
   theme_minimal(base_size = 11) +
   theme(plot.title = element_text(face = "bold", size = 11),
